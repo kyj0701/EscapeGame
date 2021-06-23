@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        rigid.AddForce(new Vector3(v*(-1), 0, h), ForceMode.Impulse);
+        rigid.AddForce(new Vector3(h, 0, v), ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -36,6 +37,19 @@ public class PlayerMove : MonoBehaviour
         if (collision.gameObject.tag == "Field")
         {
             isJump = false;
+        }
+        else if (collision.gameObject.tag == "GameManager")
+        {
+            SceneManager.LoadScene("Tutorial");
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Goal")
+        {
+            Debug.Log("Finish");
+            SceneManager.LoadScene("Tutorial");
         }
     }
 }
