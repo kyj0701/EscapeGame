@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class PlayerMove : MonoBehaviour
 {
     public float jumpPower;
+    public int itemCount;
     bool isJump;
     Rigidbody rigid;
+    public CameraMove mainCamera;
 
     void Awake()
     {
@@ -29,7 +31,10 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-        rigid.AddForce(new Vector3(h, 0, v), ForceMode.Impulse);
+        if (mainCamera.rotateCount == 0)
+            rigid.AddForce(new Vector3(h, 0, v), ForceMode.Impulse);
+        else
+            rigid.AddForce(new Vector3(-h, 0, -v), ForceMode.Impulse);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -48,8 +53,12 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
-            Debug.Log("Finish");
             SceneManager.LoadScene("Tutorial");
+        }
+        else if (other.gameObject.tag == "Item")
+        {
+            itemCount++;
+            other.gameObject.SetActive(false);
         }
     }
 }
