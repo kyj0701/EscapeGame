@@ -5,43 +5,41 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
+    public float speed;
     public float jumpPower;
     public int itemCount;
+    float h;
+    float v;
+    bool jDown;
     bool isJump;
     Rigidbody rigid;
     public CameraMove mainCamera;
+
+    Vector3 moveVec;
+
+    Animator anim;
 
     void Awake()
     {
         isJump = false;
         rigid = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     void Update()
     {
-        if(Input.GetButtonDown("Jump") && !isJump)
-        {
-            isJump = true;
-            rigid.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
-        }
+        GetInput();
+        Jump();
+        Move();
     }
 
-    void FixedUpdate()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        if (mainCamera.rotateCount == 0)
-            rigid.AddForce(new Vector3(h, 0, v), ForceMode.Impulse);
-        else
-            rigid.AddForce(new Vector3(-h, 0, -v), ForceMode.Impulse);
-    }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Field")
         {
             isJump = false;
+            anim.SetBool("isJump", false);
         }
         else if (collision.gameObject.tag == "GameManager")
         {
@@ -59,6 +57,39 @@ public class PlayerMove : MonoBehaviour
         {
             itemCount++;
             other.gameObject.SetActive(false);
+        }
+    }
+
+    void GetInput()
+    {
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+        jDown = Input.GetButtonDown("Jump");
+
+    }
+
+    void Move()
+    {
+        if (mainCamera.rotateCount == 0)
+            moveVec = new Vector3(h, 0, v).normalized;
+        else
+            moveVec = new Vector3(-h, 0, -v).normalized;
+
+        transform.position += moveVec * speed * Time.deltaTime;
+
+        anim.SetBool("isRun", moveVec != Vector3.zero);
+
+        transform.LookAt(transform.position + moveVec);
+    }
+
+    void Jump()
+    {
+        if (jDown && !isJump)
+        {
+            isJump = true;
+            rigid.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
+            anim.SetBool("isJump", true);
+            anim.SetTrigger("doJump");
         }
     }
 }

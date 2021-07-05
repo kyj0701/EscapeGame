@@ -19,14 +19,15 @@ public class CameraMove : MonoBehaviour
     void LateUpdate()
     {
         if (rotateCount == 0)
+        {
             transform.position = playerTransform.position + Offset;
+        }
 
         if (rotateCount != player.itemCount)
         {
+            Offset = Offset + new Vector3(0, -3, 0);
             transform.Rotate(new Vector3(0, 180, 0));
-            Debug.Log(transform.position);
             transform.position = playerTransform.position - Offset;
-            Debug.Log(transform.position);
             rotateCount++;
         }
 
