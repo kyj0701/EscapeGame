@@ -8,6 +8,8 @@ TagManager:
   - Goal
   - GameManager
   - Item
+  - Warp
+  - WarpPoint
   layers:
   - Default
   - TransparentFX
