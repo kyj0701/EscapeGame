@@ -14,9 +14,8 @@ public class PlayerMove : MonoBehaviour
     bool isJump;
     Rigidbody rigid;
     public CameraMove mainCamera;
-
+    Transform warpPos;
     Vector3 moveVec;
-
     Animator anim;
 
     void Awake()
@@ -45,13 +44,18 @@ public class PlayerMove : MonoBehaviour
         {
             SceneManager.LoadScene("Tutorial");
         }
+        else if (collision.gameObject.tag == "Warp")
+        {
+            warpPos = GameObject.FindGameObjectWithTag("WarpPoint").transform;
+            transform.position = warpPos.position;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Goal")
         {
-            SceneManager.LoadScene("Tutorial");
+            SceneManager.LoadScene("Scene01");
         }
         else if (other.gameObject.tag == "Item")
         {
