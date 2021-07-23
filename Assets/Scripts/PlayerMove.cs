@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     bool isJump;
     Rigidbody rigid;
     public CameraMove mainCamera;
+    public GameManager gameManager;
     Transform warpPos;
     Vector3 moveVec;
     Animator anim;
@@ -55,7 +56,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
-            SceneManager.LoadScene("Scene01");
+            gameManager.stageCount++;
+            SceneManager.LoadScene("Scene" + gameManager.stageCount.ToString());
         }
         else if (other.gameObject.tag == "Item")
         {

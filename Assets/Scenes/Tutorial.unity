@@ -2534,7 +2534,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1260597861999642, guid: d6d06c887a1aae94f8c6e8cc2c0c557b, type: 3}
       propertyPath: m_Name
-      value: BasicMotionsDummy
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 1260597861999642, guid: d6d06c887a1aae94f8c6e8cc2c0c557b, type: 3}
       propertyPath: m_TagString
@@ -3668,6 +3668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d909653ea48e8e44397db248ef08dfee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageCount: 0
 --- !u!4 &1783848621
 Transform:
   m_ObjectHideFlags: 0
@@ -4439,3 +4440,4 @@ MonoBehaviour:
   jumpPower: 5
   itemCount: 0
   mainCamera: {fileID: 963194229}
+  gameManager: {fileID: 1783848620}
